@@ -64,7 +64,12 @@ Nos permite mostrarle al usuario los archivos de su dispositivo (solo archivos .
              presentDocumentAlert.toggle()
          })
      )
- }
+ }.padding()
+ 
+ // Text View - para mostrar el tamaño del archivo seleccionado
+ Text("Data: " + (self.documentSize ?? "0 KB"))
+     .foregroundColor(.secondary)
+     .padding()
  ````
  
  - Version: 1.0

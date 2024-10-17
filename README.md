@@ -68,6 +68,12 @@ Nos permite que el usuario seleccione la fotografía deseada  (solo fotografías
          })
      )
  }
+ 
+  // Image View - Contenedor de la imágen seleccionada
+ image.resizable()
+     .scaledToFill()
+     .frame(width: 107, height: 107)
+     .padding()
  ````
 
 ## DocumentPicker
@@ -129,5 +135,10 @@ Nos permite mostrarle al usuario los archivos de su dispositivo (solo archivos .
              presentDocumentAlert.toggle()
          })
      )
- }
+ }.padding()
+ 
+ // Text View - para mostrar el tamaño del archivo seleccionado
+ Text("Data: " + (self.documentSize ?? "0 KB"))
+     .foregroundColor(.secondary)
+     .padding()
  ````

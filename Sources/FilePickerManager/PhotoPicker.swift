@@ -62,7 +62,13 @@ Nos permite que el usuario seleccione la fotografía deseada  (solo fotografías
              presentImageAlert.toggle()
          })
      )
- }
+ }.padding()
+ 
+ // Image View - Contenedor de la imágen seleccionada
+ image.resizable()
+     .scaledToFill()
+     .frame(width: 107, height: 107)
+     .padding()
  ````
  
  - Version: 1.0
