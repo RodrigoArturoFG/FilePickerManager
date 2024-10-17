@@ -43,20 +43,25 @@ Nos permite mostrarle al usuario los archivos de su dispositivo (solo archivos .
  @State private var messageDocumentAlert = "Ocurrio un error al cargar el documento"
  
  // Dentro del body
- Button("Seleccionar Imagen") {
-     isPhotoPickerPresented.toggle()
- }.sheet(isPresented: $isPhotoPickerPresented) {
-     PhotoPicker(isPhotoPickerPresented: $isPhotoPickerPresented, image:$inputImage, presentImageAlert: $presentImageAlert)
- }.onChange(of: inputImage) { _ in
-     presentImageAlert = false
-     guard let inputImage = inputImage else { return }
-     image = Image(uiImage: inputImage)
- }.alert(isPresented: $presentImageAlert) {
+ Button("Seleccionar Documentos") {
+     isFilePickerPresented.toggle()
+ }.sheet(isPresented: $isFilePickerPresented) {
+     // Presentar el Document Picker
+     DocumentPicker(isFilePickerPresented: $isFilePickerPresented, documentData: $documentData, presentDocumentAlert: $presentDocumentAlert)
+ }.onChange(of: documentData) { _ in
+     // Se obtuvo la Data del documento seleccionado
+     // Manejo de la respuesta
+     let bcf = ByteCountFormatter()
+     bcf.allowedUnits = [.useKB] // optional: restricts the units to MB only
+     bcf.countStyle = .file
+     self.documentSize = bcf.string(fromByteCount: Int64(documentData!.count))
+ }.alert(isPresented: $presentDocumentAlert) {
+     // Ocurrió un error al seleccionar un documento
      Alert(
-         title: Text("Error Imagen"),
-         message: Text(messageImageAlert),
+         title: Text("Error Documento"),
+         message: Text(messageDocumentAlert),
          dismissButton: .default(Text("Ok"), action: {
-             presentImageAlert.toggle()
+             presentDocumentAlert.toggle()
          })
      )
  }

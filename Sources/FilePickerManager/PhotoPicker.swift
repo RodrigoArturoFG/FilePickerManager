@@ -46,25 +46,20 @@ Nos permite que el usuario seleccione la fotografía deseada  (solo fotografías
  @State private var image = Image(systemName:"photo.on.rectangle.angled")
  
  // Dentro del body
- Button("Seleccionar Documentos") {
-     isFilePickerPresented.toggle()
- }.sheet(isPresented: $isFilePickerPresented) {
-     // Presentar el Document Picker
-     DocumentPicker(isFilePickerPresented: $isFilePickerPresented, documentData: $documentData, presentDocumentAlert: $presentDocumentAlert)
- }.onChange(of: documentData) { _ in
-     // Se obtuvo la Data del documento seleccionado
-     // Manejo de la respuesta
-     let bcf = ByteCountFormatter()
-     bcf.allowedUnits = [.useKB] // optional: restricts the units to MB only
-     bcf.countStyle = .file
-     self.documentSize = bcf.string(fromByteCount: Int64(documentData!.count))
- }.alert(isPresented: $presentDocumentAlert) {
-     // Ocurrió un error al seleccionar un documento
+ Button("Seleccionar Imagen") {
+     isPhotoPickerPresented.toggle()
+ }.sheet(isPresented: $isPhotoPickerPresented) {
+     PhotoPicker(isPhotoPickerPresented: $isPhotoPickerPresented, image:$inputImage, presentImageAlert: $presentImageAlert)
+ }.onChange(of: inputImage) { _ in
+     presentImageAlert = false
+     guard let inputImage = inputImage else { return }
+     image = Image(uiImage: inputImage)
+ }.alert(isPresented: $presentImageAlert) {
      Alert(
-         title: Text("Error Documento"),
-         message: Text(messageDocumentAlert),
+         title: Text("Error Imagen"),
+         message: Text(messageImageAlert),
          dismissButton: .default(Text("Ok"), action: {
-             presentDocumentAlert.toggle()
+             presentImageAlert.toggle()
          })
      )
  }
